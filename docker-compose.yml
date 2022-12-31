@@ -1,0 +1,13 @@
+version: "3.0"
+services:
+  ui:
+    container_name: react-forms
+    build: "."
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./.storybook:/usr/src/app/.storybook
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./tailwind.config.js:/usr/src/app/tailwind.config.js
+      - ./theme.js:/usr/src/app/theme.js
+    ports:
+      - "6006:6006"
