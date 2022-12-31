@@ -5,12 +5,11 @@ import { PaymentsPlans } from "./payment-plans";
 import { A11yWatchProvider } from "../../providers/app";
 
 export const Default = ({ children = "Default" }) => {
-
   return (
     <A11yWatchProvider>
       <PaymentsPlans />
     </A11yWatchProvider>
-  )
+  );
 };
 
 export default {

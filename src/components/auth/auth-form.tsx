@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { useA11yWatchContext } from "../../providers/app";
 
+// todo: loading spinner
 export const SignOnForm = () => {
   const { setAccountType } = useA11yWatchContext();
   const [email, setEmail] = useState<string>();
@@ -19,9 +20,9 @@ export const SignOnForm = () => {
 
     if (email && password) {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_A11YWATCH_API || "https://api.a11ywatch.com"}/api/${
-          registerForm ? "register" : "login"
-        }`,
+        `${
+          process.env.NEXT_PUBLIC_A11YWATCH_API || "https://api.a11ywatch.com"
+        }/api/${registerForm ? "register" : "login"}`,
         {
           method: "POST",
           body: JSON.stringify({ email, password }),
@@ -51,35 +52,40 @@ export const SignOnForm = () => {
   const onToggleFormType = () => setRegister((x) => !x);
 
   return (
-    <div>
-      <h2>{registerForm ? "Register" : "Login"} to A11yWatch</h2>
-
-      <form onSubmit={onSubmitEvent} noValidate className="p-4">
-        <label>
+    <div className="space-y-2">
+      <p className="text-xl font-medium">
+        A11yWatch {registerForm ? "Register" : "Login"}
+      </p>
+      <form onSubmit={onSubmitEvent} noValidate className="p-4 space-x-2">
+        <label className="space-x-2">
           Email
           <input
-            placeholder="Enter email.."
+            placeholder="Enter email..."
             type={"email"}
             onChange={onChangeEmail}
-            className={"p-2"}
+            required
+            className={"ml-2 p-2 border rounded"}
           ></input>
         </label>
-        <label>
+        <label className="space-x-2">
           Password
           <input
             placeholder="Enter password..."
             type={"password"}
+            minLength={6}
+            required
             onChange={onChangePassword}
-            className={"p-2"}
+            className={"ml-2 p-2 border rounded"}
           ></input>
         </label>
-        <button type="submit">Submit</button>
-      </form>
-      <div className="px-2 py-2">
-        <button onClick={onToggleFormType}>
-          {registerForm ? "Login" : "Register"} Account
+        <button type="submit" className={"border rounded px-3 py-2"}>
+          Submit
         </button>
-      </div>
+      </form>
+
+      <button onClick={onToggleFormType} className={"border rounded px-3 py-2"}>
+        {registerForm ? "Login" : "Register"} Account
+      </button>
     </div>
   );
 };

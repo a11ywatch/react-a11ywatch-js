@@ -9,7 +9,7 @@ export const Default = ({ children = "Default" }) => {
     <A11yWatchProvider>
       <SignOnForm />
     </A11yWatchProvider>
-  )
+  );
 };
 
 export default {

@@ -9,10 +9,10 @@ export const Default = ({ children = "Default" }) => {
   return (
     <A11yWatchProvider>
       <StripeProvider>
-        <CheckoutForm  />
+        <CheckoutForm />
       </StripeProvider>
     </A11yWatchProvider>
-  )
+  );
 };
 
 export default {

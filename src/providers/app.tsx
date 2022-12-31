@@ -1,11 +1,6 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  FC,
-  PropsWithChildren,
-} from "react";
+import React, { createContext, useContext, FC, PropsWithChildren } from "react";
 import { useAccount } from "../hooks/account";
 import { Plans, PaymentPlan, usePayments } from "../hooks/payments";
 
@@ -25,17 +20,17 @@ const defaultPayments = {
   highPlan: false,
   yearly: false,
   selectedPlan: -1,
-  setPaymentPlans:(_x: any) => {},
+  setPaymentPlans: (_x: any) => {},
   setHighPlan: (_x: any) => {},
   setYearly: (_x: any) => {},
   setSelected: (_x: any) => {},
-  onToken: (_x: any) => {}
-}
+  onToken: (_x: any) => {},
+};
 
 const AppContext = createContext({
   account: defaultAccount,
   setAccountType: (_x: typeof defaultAccount) => {},
-  payments: defaultPayments // todo: split hook from app context?
+  payments: defaultPayments, // todo: split hook from app context?
 });
 
 const A11yWatchProviderBase = AppContext.Provider;
