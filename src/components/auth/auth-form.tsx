@@ -64,8 +64,8 @@ export const SignOnForm = () => {
             placeholder="Enter email..."
             type={"email"}
             onChange={onChangeEmail}
-            autoComplete={"current-email"}
             required
+            autoComplete="email"
             className={"ml-2 p-2 border rounded"}
           ></input>
         </label>
@@ -77,7 +77,7 @@ export const SignOnForm = () => {
             minLength={6}
             required
             onChange={onChangePassword}
-            autoComplete={"current-password"}
+            autoComplete={registerForm ? "new-password" :"current-password"}
             className={"ml-2 p-2 border rounded"}
           ></input>
         </label>

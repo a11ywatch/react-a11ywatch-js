@@ -114,13 +114,13 @@ export default function PaymentsView() {
 }
 ```
 
-Full example managing account subscriptions and auth
+Full example managing account subscriptions and auth.
 
 ```tsx
 import React, { useEffect } from "react";
 import {
-  PaymentsProvider,
   A11yWatchProvider,
+  PaymentsProvider,
   SignOnForm,
   PaymentsPlans,
   StripeProvider,
@@ -128,6 +128,7 @@ import {
   useA11yWatchContext,
 } from "@a11ywatch/react-a11ywatch-js";
 
+// build a payment view based on the components.
 const PaymentsView = () => {
   const { account } = useA11yWatchContext();
 
@@ -152,7 +153,7 @@ const MainApp = () => {
 
   return account.authed ? (
     <PaymentsProvider>
-      <Payments />
+      <PaymentsView />
     </PaymentsProvider>
   ) : (
     <SignOnForm />
@@ -169,7 +170,7 @@ export function App() {
 }
 ```
 
-Use pre-compilled tailwind styles
+Use pre-compilled tailwind styles:
 
 ```tsx
 import "@a11ywatch/react-a11ywatch-js/css/tailwind.css";
