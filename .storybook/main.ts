@@ -5,4 +5,5 @@ module.exports = {
     "@storybook/addon-actions",
     "@storybook/addon-links",
   ],
+  staticDirs: ['../public'],
 };
