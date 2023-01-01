@@ -1,16 +1,18 @@
-import React, { FunctionComponent } from "react";
-// import { action } from "@storybook/addon-actions";
+import React from "react";
 import { withA11y } from "@storybook/addon-a11y";
 import { CheckoutForm } from "./checkout";
 import { A11yWatchProvider } from "../../providers/app";
 import { StripeProvider } from "../../providers/stripe";
+import { PaymentsProvider } from "../../providers/payments";
 
 export const Default = ({ children = "Default" }) => {
   return (
     <A11yWatchProvider>
-      <StripeProvider>
-        <CheckoutForm />
-      </StripeProvider>
+      <PaymentsProvider>
+        <StripeProvider>
+          <CheckoutForm />
+        </StripeProvider>
+      </PaymentsProvider>
     </A11yWatchProvider>
   );
 };

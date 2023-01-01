@@ -18,43 +18,39 @@ This package handles the above as peers and require installation manually.
 
 ## Usage
 
-First wrap the section of the app that needs to use A11yWatch with the Auth provider.
+First wrap the section of the app that needs to use A11yWatch with the [A11yWatchProvider](./src/providers/app.tsx).
 
 ```tsx
-import {A11yWatchProvider} from '@a11ywatch/react-a11ywatch-js'
+import { A11yWatchProvider } from "@a11ywatch/react-a11ywatch-js";
 
 export default function Home() {
-
-    return (
-        <A11yWatchProvider>
-            <App />
-        </A11yWatchProvider>
-    )
+  return (
+    <A11yWatchProvider>
+      <App />
+    </A11yWatchProvider>
+  );
 }
 ```
 
 Now inside the `App` component you can use the hooks.
 
 ```tsx
-import {useA11yWatchContext} from '@a11ywatch/react-a11ywatch-js'
+import { useA11yWatchContext } from "@a11ywatch/react-a11ywatch-js";
 
 export default function App() {
-    const {account} = useA11yWatchContext()
-    return (
-        <div>
-           Email {account.email}
-        </div>
-    )
+  const { account } = useA11yWatchContext();
+  return <div>Email {account.email}</div>;
 }
 ```
 
 Use auth form to authenticate
 
 ```tsx
-import {useA11yWatchContext, SignOnForm } from '@a11ywatch/react-a11ywatch-js'
+import { useA11yWatchContext, SignOnForm } from '@a11ywatch/react-a11ywatch-js'
 
 export default function App() {
-    const {account} = useA11yWatchContext()
+    const { account } = useA11yWatchContext()
+
     return (
         <div>
            {account.email ? Email {account.email} : null}
@@ -64,35 +60,57 @@ export default function App() {
 }
 ```
 
-Select a payment plan to prep account upgrade
+Select a payment plan to prep account upgrade first add the [PaymentsProvider](./src/providers/payments.tsx).
 
 ```tsx
-import {useA11yWatchContext, PaymentPlans } from '@a11ywatch/react-a11ywatch-js'
+import {
+  A11yWatchProvider,
+  PaymentsProvider,
+} from "@a11ywatch/react-a11ywatch-js";
 
 export default function Payments() {
-    const {payments} = useA11yWatchContext()
+  return (
+    <A11yWatchProvider>
+      <PaymentsProvider>
+        <App />
+      </PaymentsProvider>
+    </A11yWatchProvider>
+  );
+}
+```
 
-    console.log(payments)
-    return (
-        <PaymentPlans />
-    )
+```tsx
+import {
+  usePaymentsContext,
+  PaymentPlans,
+} from "@a11ywatch/react-a11ywatch-js";
+
+export default function PaymentsView() {
+  const { payments } = usePaymentsContext();
+
+  console.log(payments);
+  return <PaymentPlans />;
 }
 ```
 
 Use the selected payment plan to change account plan.
 
 ```tsx
-import {useA11yWatchContext, CheckoutForm, StripeProvider } from '@a11ywatch/react-a11ywatch-js'
+import {
+  usePaymentsContext,
+  CheckoutForm,
+  StripeProvider,
+} from "@a11ywatch/react-a11ywatch-js";
 
-export default function Payments() {
-    const {payments} = useA11yWatchContext()
+export default function PaymentsView() {
+  const { payments } = usePaymentsContext();
 
-    console.log(payments)
-    return (
-        <StripeProvider>
-            <CheckoutForm />
-        </StripeProvider>
-    )
+  console.log(payments);
+  return (
+    <StripeProvider>
+      <CheckoutForm />
+    </StripeProvider>
+  );
 }
 ```
 
@@ -101,6 +119,7 @@ Full example managing account subscriptions and auth
 ```tsx
 import React, { useEffect } from "react";
 import {
+  PaymentsProvider,
   A11yWatchProvider,
   SignOnForm,
   PaymentsPlans,
@@ -109,13 +128,13 @@ import {
   useA11yWatchContext,
 } from "@a11ywatch/react-a11ywatch-js";
 
-const Payments = () => {
+const PaymentsView = () => {
   const { account } = useA11yWatchContext();
 
   useEffect(() => {
     // do something with account on change
-    console.log(account)
-  }, [account])
+    console.log(account);
+  }, [account]);
 
   return (
     <div className="space-y-2">
@@ -131,7 +150,13 @@ const Payments = () => {
 const MainApp = () => {
   const { account } = useA11yWatchContext();
 
-  return account.authed ? <Payments /> : <SignOnForm />;
+  return account.authed ? (
+    <PaymentsProvider>
+      <Payments />
+    </PaymentsProvider>
+  ) : (
+    <SignOnForm />
+  );
 };
 
 // wrap in auth provider
@@ -147,7 +172,7 @@ export function App() {
 Use pre-compilled tailwind styles
 
 ```tsx
-import '@a11ywatch/react-a11ywatch-js/css/tailwind.css'
+import "@a11ywatch/react-a11ywatch-js/css/tailwind.css";
 ```
 
 ## ENV

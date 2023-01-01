@@ -1,6 +1,6 @@
 import React from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import { useA11yWatchContext } from "../../providers/app";
+import { usePaymentsContext } from "../../providers/payments";
 
 interface Props {
   disabled?: boolean;
@@ -20,7 +20,7 @@ const style = {
 export const CheckoutForm = ({ disabled, submitLabel }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
-  const { payments } = useA11yWatchContext();
+  const { payments } = usePaymentsContext();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

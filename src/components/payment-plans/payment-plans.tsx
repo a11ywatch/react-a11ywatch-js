@@ -1,4 +1,4 @@
-import { useA11yWatchContext } from "../../providers/app";
+import { usePaymentsContext } from "../../providers/payments";
 import React, { useEffect } from "react";
 
 // fetch the payment plans from the API
@@ -22,7 +22,7 @@ export const getPaymentPlans = async () => {
 };
 
 export const PaymentsPlans = () => {
-  const { payments } = useA11yWatchContext();
+  const { payments } = usePaymentsContext();
   const {
     paymentPlans,
     setPaymentPlans,
@@ -110,7 +110,7 @@ export const PaymentsPlans = () => {
           onClick={onToggleHighPlan}
           className={"px-3 py-2 border rounded"}
         >
-          Toggle High Plans
+          View High Plans
         </button>
         <button onClick={onToggleYearly} className={"px-3 py-2 border rounded"}>
           Switch Yearly

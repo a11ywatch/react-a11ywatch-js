@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/react-a11ywatch-js",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "a11ywatch react components and hooks",
   "main": "./dist/index.js",
   "types": "types/index.d.ts",
@@ -16,7 +16,7 @@
     "predeploy": "npm run build",
     "deploy": "cd dist && npm publish --access public",
     "deploy-storybook": "storybook-to-ghpages",
-    "fix": "prettier --write '**/*.{js,jsx,ts,tsx}'"
+    "fix": "prettier --write '**/*.{js,jsx,ts,tsx,md}'"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",

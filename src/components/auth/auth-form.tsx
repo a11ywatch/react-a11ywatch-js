@@ -52,17 +52,19 @@ export const SignOnForm = () => {
   const onToggleFormType = () => setRegister((x) => !x);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 border rounded px-4 py-3">
       <p className="text-xl font-medium">
         A11yWatch {registerForm ? "Register" : "Login"}
       </p>
-      <form onSubmit={onSubmitEvent} noValidate className="p-4 space-x-2">
+
+      <form onSubmit={onSubmitEvent} noValidate className="space-x-2">
         <label className="space-x-2">
           Email
           <input
             placeholder="Enter email..."
             type={"email"}
             onChange={onChangeEmail}
+            autoComplete={"current-email"}
             required
             className={"ml-2 p-2 border rounded"}
           ></input>
@@ -75,6 +77,7 @@ export const SignOnForm = () => {
             minLength={6}
             required
             onChange={onChangePassword}
+            autoComplete={"current-password"}
             className={"ml-2 p-2 border rounded"}
           ></input>
         </label>
