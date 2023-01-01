@@ -1,10 +1,20 @@
 ## @a11ywatch/react-a11ywatch-js
 
-Unstyled react components and hooks to manage create and manage a valid A11yWatch account that works nice with tailwind.
+Unstyled react components and hooks to integrate with [A11yWatch](https://a11ywatch.com) using [tailwindcss](https://tailwindcss.com/).
 
 ## Getting Started
 
 1. `npm install @a11ywatch/react-a11ywatch-js`
+
+### Required Dependencies
+
+If you plan on upgrading user accounts externally `@stripe/stripe-js` and `@stripe/react-stripe-js` is required.
+
+1. `react`. ^16
+1. `@stripe/stripe-js`
+1. `@stripe/react-stripe-js`.
+
+This package handles the above as peers and require installation manually.
 
 ## Usage
 
@@ -133,19 +143,12 @@ export function App() {
   );
 }
 ```
+
 Use pre-compilled tailwind styles
 
 ```tsx
 import '@a11ywatch/react-a11ywatch-js/css/tailwind.css'
 ```
-
-### Required Dependencies
-
-1. `react`. ^16
-1. `@stripe/stripe-js` if you want to upgrade accounts.
-1. `@stripe/react-stripe-js`.
-
-This package handles the above as peers and require installation manually.
 
 ## ENV
 
