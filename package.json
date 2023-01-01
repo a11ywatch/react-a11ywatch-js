@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/react-a11ywatch-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a11ywatch react components and hooks",
   "main": "./dist/index.js",
   "types": "types/index.d.ts",
@@ -11,7 +11,7 @@
     "build": "tsc && NODE_ENV=production npx tailwindcss -i ./src/css/tailwind.css -o ./dist/css/tailwind.css && cp ./dist/css/tailwind.css ./public/tailwind.css",
     "postbuild": "npm run prepdist",
     "storybook": "npm run build && start-storybook -p 6006 --ci",
-    "build-storybook": "build-storybook -s public",
+    "build-storybook": "npm run build && build-storybook",
     "prepdist": "node ./config/prep-dist.js",
     "predeploy": "npm run build",
     "deploy": "cd dist && npm publish --access public",
@@ -19,14 +19,6 @@
     "fix": "prettier --write '**/*.{js,jsx,ts,tsx}'"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-modules-commonjs": "^7.9.0",
-    "@babel/plugin-transform-runtime": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@storybook/addon-a11y": "6.5.15",
     "@storybook/addon-actions": "6.5.15",
