@@ -8,6 +8,8 @@ const defaultAudit = {
   report: null as Report | null | undefined,
   loading: false,
   performAudit: (_x: any) => {},
+  onChangeUrl: (_x: any) => {},
+  url: "",
 };
 
 const AppContext = createContext({
@@ -16,15 +18,48 @@ const AppContext = createContext({
 
 const AuditProviderBase = AppContext.Provider;
 
-const AuditProviderWrapper: FC<PropsWithChildren<{}>> = ({ children }) => {
+type AuditProviderProps = {
+  persist?: string | boolean; // persist values by key or top level
+  multi?: boolean; // multi page audit
+};
+
+const AuditProviderWrapper: FC<PropsWithChildren<AuditProviderProps>> = ({
+  children,
+  persist,
+  multi,
+}) => {
   const { account } = useA11yWatchContext();
-  const audit = useAudit(account.jwt);
+  const audit = useAudit({ jwt: account.jwt, persist, multi });
 
   return <AuditProviderBase value={{ audit }}>{children}</AuditProviderBase>;
 };
 
-export const AuditProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  return <AuditProviderWrapper>{children}</AuditProviderWrapper>;
+/**
+ * Audit provider to bind input and list results.
+ * @param children children to render
+ * @param multi perform multi page audit
+ * @param persist persist values and restore and refresh
+ * @example <caption>Example of using the provider</caption>
+ * function Auditer(){
+ *   return (
+ *     <AuditProviderWrapper>
+ *        <AuditForm />
+ *        <AuditList />
+ *     </AuditProviderWrapper>
+ *   );
+ * }
+ * @returns {React.FC<React.PropsWithChildren<{}>>} Returns the audit provider.
+ */
+export const AuditProvider: FC<PropsWithChildren<AuditProviderProps>> = ({
+  children,
+  persist,
+  multi,
+}) => {
+  return (
+    <AuditProviderWrapper persist={persist} multi={multi}>
+      {children}
+    </AuditProviderWrapper>
+  );
 };
 
 export function useAuditContext() {

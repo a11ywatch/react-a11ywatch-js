@@ -4,7 +4,7 @@ import { IssueCell } from "./issue-cell";
 
 export const IssueLists = ({ issues }: { issues?: PageIssue[] }) => {
   return (
-    <ul className="list-none overflow-hidden">
+    <ul className="list-none overflow-x-hidden">
       {issues?.map((item, index) => (
         <IssueCell
           message={item.message}

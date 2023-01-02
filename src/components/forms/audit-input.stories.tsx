@@ -26,6 +26,38 @@ export const DefaultList = ({ children = "Default" }) => {
   );
 };
 
+export const DefaultListPersist = ({ children = "Default" }) => {
+  return (
+    <A11yWatchProvider persist>
+      <AuditProvider persist>
+        <AuditForm />
+        <AuditList />
+      </AuditProvider>
+    </A11yWatchProvider>
+  );
+};
+
+export const DefaultListPersistCustomKeys = ({ children = "Default" }) => {
+  return (
+    <A11yWatchProvider persist>
+      <div className="space-y-4">
+        <AuditProvider persist={"website-1"}>
+          <AuditForm />
+          <div className="max-h-96 overflow-y-auto">
+            <AuditList />
+          </div>
+        </AuditProvider>
+        <AuditProvider persist={"website-2"}>
+          <AuditForm />
+          <div className="max-h-96 overflow-y-auto">
+            <AuditList />
+          </div>
+        </AuditProvider>
+      </div>
+    </A11yWatchProvider>
+  );
+};
+
 export default {
   title: "AuditForm",
   decorators: [withA11y],

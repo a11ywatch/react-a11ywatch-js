@@ -65,15 +65,13 @@ export default function App() {
 Select a payment plan to prep account upgrade first add the [PaymentsProvider](./src/providers/payments.tsx).
 
 ```tsx
-import {
-  PaymentsProvider,
-} from "@a11ywatch/react-a11ywatch-js";
+import { PaymentsProvider } from "@a11ywatch/react-a11ywatch-js";
 
 export default function Payments() {
   return (
-      <PaymentsProvider>
-        <App />
-      </PaymentsProvider>
+    <PaymentsProvider>
+      <App />
+    </PaymentsProvider>
   );
 }
 ```
@@ -200,6 +198,39 @@ export function Auditer() {
       <AuditProvider>
         <MyAudit />
       </AuditProvider>
+    </A11yWatchProvider>
+  );
+}
+```
+
+Multi audit example with persisting to disk:
+
+```tsx
+import React from "react";
+import {
+  A11yWatchProvider,
+  AuditProvider,
+  AuditForm,
+  AuditList,
+} from "@a11ywatch/react-a11ywatch-js";
+
+export function Auditer() {
+  return (
+    <A11yWatchProvider persist>
+      <div className="space-y-4">
+        <AuditProvider persist={"website-1"}>
+          <AuditForm />
+          <div className="max-h-96 overflow-y-auto">
+            <AuditList />
+          </div>
+        </AuditProvider>
+        <AuditProvider persist={"website-2"}>
+          <AuditForm />
+          <div className="max-h-96 overflow-y-auto">
+            <AuditList />
+          </div>
+        </AuditProvider>
+      </div>
     </A11yWatchProvider>
   );
 }

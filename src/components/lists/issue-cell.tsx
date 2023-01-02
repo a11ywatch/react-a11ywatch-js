@@ -97,7 +97,9 @@ export function IssueCellComponent({
           </>
         ) : null}
       </div>
-      {context ? <code className={"text-xs max-w-[100vw] line-clamp-3"}>{context}</code> : null}
+      {context ? (
+        <code className={"text-xs max-w-[100vw] line-clamp-3"}>{context}</code>
+      ) : null}
     </div>
   );
 }

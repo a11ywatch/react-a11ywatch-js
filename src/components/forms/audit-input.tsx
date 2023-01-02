@@ -1,19 +1,15 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent } from "react";
 import { useAuditContext } from "../../providers/audit";
 
 export const AuditForm = () => {
   const { audit } = useAuditContext();
-  const [url, setUrl] = useState<string>();
-
-  const onChangeUrl = (event: React.FormEvent<HTMLInputElement>) => {
-    setUrl(event.currentTarget.value);
-  };
 
   const onSubmitEvent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (url) {
-      await audit.performAudit(url.includes("http") ? url : `http://${url}`);
+    if (audit.url) {
+      await audit.performAudit(
+        audit.url.includes("http") ? audit.url : `http://${audit.url}`
+      );
     }
   };
 
@@ -24,7 +20,8 @@ export const AuditForm = () => {
         <input
           placeholder="Enter url include http(s)..."
           type={"url"}
-          onChange={onChangeUrl}
+          value={audit.url}
+          onChange={audit.onChangeUrl}
           className={"ml-2 p-2 border rounded"}
           required
           minLength={8}

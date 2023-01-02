@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { tkn } from "../utils/data";
 
 type AccountProps = {
   activeSubscription: boolean;
@@ -7,8 +8,6 @@ type AccountProps = {
   jwt: string;
   role: number;
 };
-
-const tkn = "@a11ywatch/data";
 
 // basic account details
 export const useAccount = (persist?: boolean) => {
