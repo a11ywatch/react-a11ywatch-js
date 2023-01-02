@@ -6,7 +6,7 @@ import { A11yWatchProvider } from "../../providers/app";
 
 export const Default = ({ children = "Default" }) => {
   return (
-    <A11yWatchProvider>
+    <A11yWatchProvider persist>
       <SignOnForm />
     </A11yWatchProvider>
   );

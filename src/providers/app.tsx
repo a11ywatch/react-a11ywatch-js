@@ -18,8 +18,13 @@ const AppContext = createContext({
 
 const A11yWatchProviderBase = AppContext.Provider;
 
-const A11yWatchProviderWrapper: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const { account, setAccountType } = useAccount();
+type A11yWatchProps = { persist?: boolean };
+
+const A11yWatchProviderWrapper: FC<PropsWithChildren<A11yWatchProps>> = ({
+  children,
+  persist,
+}) => {
+  const { account, setAccountType } = useAccount(persist);
 
   return (
     <A11yWatchProviderBase value={{ account, setAccountType }}>
@@ -28,8 +33,15 @@ const A11yWatchProviderWrapper: FC<PropsWithChildren<{}>> = ({ children }) => {
   );
 };
 
-export const A11yWatchProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  return <A11yWatchProviderWrapper>{children}</A11yWatchProviderWrapper>;
+export const A11yWatchProvider: FC<PropsWithChildren<A11yWatchProps>> = ({
+  children,
+  persist,
+}) => {
+  return (
+    <A11yWatchProviderWrapper persist={persist}>
+      {children}
+    </A11yWatchProviderWrapper>
+  );
 };
 
 export function useA11yWatchContext() {

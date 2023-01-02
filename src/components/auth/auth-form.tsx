@@ -77,7 +77,7 @@ export const SignOnForm = () => {
             minLength={6}
             required
             onChange={onChangePassword}
-            autoComplete={registerForm ? "new-password" :"current-password"}
+            autoComplete={registerForm ? "new-password" : "current-password"}
             className={"ml-2 p-2 border rounded"}
           ></input>
         </label>

@@ -7,7 +7,7 @@ import { PaymentsProvider } from "../../providers/payments";
 
 export const Default = ({ children = "Default" }) => {
   return (
-    <A11yWatchProvider>
+    <A11yWatchProvider persist>
       <PaymentsProvider>
         <StripeProvider>
           <CheckoutForm />

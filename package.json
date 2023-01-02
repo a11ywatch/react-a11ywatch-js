@@ -1,11 +1,12 @@
 {
   "name": "@a11ywatch/react-a11ywatch-js",
-  "version": "0.0.6",
+  "version": "0.0.10",
   "description": "a11ywatch react components and hooks",
   "main": "./dist/index.js",
   "types": "types/index.d.ts",
   "author": "jeffmendez",
   "license": "MIT",
+  "homepage": "https://github.com/a11ywatch/react-a11ywatch-js#readme",
   "scripts": {
     "test": "jest",
     "build": "tsc && NODE_ENV=production npx tailwindcss -i ./src/css/tailwind.css -o ./dist/css/tailwind.css && cp ./dist/css/tailwind.css ./public/tailwind.css",
@@ -14,7 +15,7 @@
     "build-storybook": "npm run build && build-storybook",
     "prepdist": "node ./config/prep-dist.js",
     "predeploy": "npm run build",
-    "deploy": "cd dist && npm publish --access public",
+    "deploy": "cp ./README.md ./dist && cd dist && npm publish --access public",
     "deploy-storybook": "storybook-to-ghpages",
     "fix": "prettier --write '**/*.{js,jsx,ts,tsx,md}'"
   },

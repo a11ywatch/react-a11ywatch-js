@@ -20,12 +20,14 @@ This package handles the above as peers and require installation manually.
 
 First wrap the section of the app that needs to use A11yWatch with the [A11yWatchProvider](./src/providers/app.tsx).
 
+The `persist` prop stores user data to disk if set to true.
+
 ```tsx
 import { A11yWatchProvider } from "@a11ywatch/react-a11ywatch-js";
 
 export default function Home() {
   return (
-    <A11yWatchProvider>
+    <A11yWatchProvider persist>
       <App />
     </A11yWatchProvider>
   );
@@ -64,17 +66,14 @@ Select a payment plan to prep account upgrade first add the [PaymentsProvider](.
 
 ```tsx
 import {
-  A11yWatchProvider,
   PaymentsProvider,
 } from "@a11ywatch/react-a11ywatch-js";
 
 export default function Payments() {
   return (
-    <A11yWatchProvider>
       <PaymentsProvider>
         <App />
       </PaymentsProvider>
-    </A11yWatchProvider>
   );
 }
 ```
@@ -163,8 +162,44 @@ const MainApp = () => {
 // wrap in auth provider
 export function App() {
   return (
-    <A11yWatchProvider>
+    <A11yWatchProvider persist>
       <MainApp />
+    </A11yWatchProvider>
+  );
+}
+```
+
+Perform a live audit scan on a url, make sure to be authenticated first.
+
+```tsx
+import React, { useEffect } from "react";
+import {
+  A11yWatchProvider,
+  AuditProvider,
+  AuditForm,
+  AuditList,
+  useAuditContext,
+} from "@a11ywatch/react-a11ywatch-js";
+
+function MyAudit() {
+  const { report, loading } = useAuditContext();
+
+  console.log(report, loading);
+
+  return (
+    <>
+      <AuditForm />
+      <AuditList />
+    </>
+  );
+}
+
+export function Auditer() {
+  return (
+    <A11yWatchProvider persist>
+      <AuditProvider>
+        <MyAudit />
+      </AuditProvider>
     </A11yWatchProvider>
   );
 }
@@ -182,7 +217,9 @@ You can use the `NEXT_PUBLIC_A11YWATCH_API` env var to set the base url of the A
 
 ## Development
 
-To get started developing run `yarn storybook` to start the instance locally.
+node v14 - v18.
+
+To get started developing run `yarn` to install the modules and `yarn storybook` to start the instance locally.
 
 ## LICENSE
 
