@@ -5,7 +5,8 @@ import { A11yWatchProvider } from "../../providers/app";
 import { AuditProvider } from "../../providers/audit";
 import { AuditList } from "../lists/audit-list";
 
-export const Default = ({ children = "Default" }) => {
+// just the form without the list
+export const Default = () => {
   return (
     <A11yWatchProvider persist>
       <AuditProvider>
@@ -15,29 +16,43 @@ export const Default = ({ children = "Default" }) => {
   );
 };
 
-export const DefaultList = ({ children = "Default" }) => {
+// persist the audit
+const Component = ({
+  persist,
+  multi,
+  disableStats,
+}: {
+  persist?: boolean;
+  multi?: boolean;
+  disableStats?: boolean;
+}) => {
   return (
     <A11yWatchProvider persist>
-      <AuditProvider>
+      <AuditProvider persist={persist} multi={multi}>
         <AuditForm />
-        <AuditList />
+        <AuditList disableStats={disableStats} />
       </AuditProvider>
     </A11yWatchProvider>
   );
 };
 
-export const DefaultListPersist = ({ children = "Default" }) => {
-  return (
-    <A11yWatchProvider persist>
-      <AuditProvider persist>
-        <AuditForm />
-        <AuditList />
-      </AuditProvider>
-    </A11yWatchProvider>
-  );
+export const DefaultList = () => {
+  return <Component />;
 };
 
-export const DefaultListPersistCustomKeys = ({ children = "Default" }) => {
+export const DefaultListPersist = () => {
+  return <Component persist />;
+};
+
+export const DefaultMultiPersistList = () => {
+  return <Component multi persist />;
+};
+
+export const DefaultMultiPersistListNoStats = () => {
+  return <Component multi persist disableStats />;
+};
+
+export const DefaultListPersistCustomKeys = () => {
   return (
     <A11yWatchProvider persist>
       <div className="space-y-4">

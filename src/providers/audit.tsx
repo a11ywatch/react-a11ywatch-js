@@ -1,15 +1,17 @@
 "use client";
 
 import React, { createContext, useContext, FC, PropsWithChildren } from "react";
-import { useAudit, Report } from "../hooks/audit";
+import { useAudit } from "../hooks/audit";
 import { useA11yWatchContext } from "./app";
+import type { Report } from "../types";
 
 const defaultAudit = {
-  report: null as Report | null | undefined,
+  report: null as Report | Map<string, Report> | null | undefined,
   loading: false,
+  url: "",
   performAudit: (_x: any) => {},
   onChangeUrl: (_x: any) => {},
-  url: "",
+  dispatchReport: (_x: any) => {},
 };
 
 const AppContext = createContext({

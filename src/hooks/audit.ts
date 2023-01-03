@@ -1,35 +1,24 @@
 import { useEffect, useReducer } from "react";
 import { tkn_report } from "../utils/data";
-import { PageIssue, IssueMeta, PageLoadTimeMeta } from "../types";
-
-export type Report = {
-  url?: string;
-  domain?: string;
-  issues?: PageIssue[];
-  cdnConnected?: boolean;
-  issuesInfo?: IssueMeta;
-  lastScanDate?: string;
-  online?: boolean;
-  pageLoadTime?: PageLoadTimeMeta;
-  userId?: number;
-};
+import { PageReport, Report } from "../types";
+import { mutateScan } from "../mutations/scan";
+import { streamAudit } from "../mutations/stream-audit";
 
 type AuditState = {
-  report: Report | null;
+  report: PageReport;
   loading: boolean;
   url: string;
 };
 
-type ActionPayloadReport = { report: Report | null; url?: string };
-type ActionPayloadUrl = { report?: Report | null; url: string };
+type ActionPayloadReport = { report: PageReport; url?: string };
+type ActionPayloadUrl = { report?: PageReport; url: string };
 
 enum AuditActionKind {
   SET_REPORT,
+  SET_REPORT_STREAM,
   SET_URL,
   TOGGLE_LOADER,
 }
-
-const initialState = { report: null, loading: false, url: "" };
 
 function reducer(
   state: AuditState,
@@ -49,6 +38,38 @@ function reducer(
         url: action.payload.url || state.url,
       };
     }
+    case AuditActionKind.SET_REPORT_STREAM: {
+      const nextReport = action.payload.report as Report;
+      // validate
+      if (
+        nextReport &&
+        nextReport.url &&
+        nextReport instanceof Map === false &&
+        state.report &&
+        state.report instanceof Map
+      ) {
+        const item = state.report.has(nextReport.url);
+        if (item) {
+          const mapedReport = state.report.get(nextReport.url);
+
+          if (mapedReport) {
+            mapedReport.cdnConnected = nextReport.cdnConnected;
+            mapedReport.issues = nextReport.issues;
+            mapedReport.issuesInfo = nextReport.issuesInfo;
+            mapedReport.lastScanDate = nextReport.lastScanDate;
+            mapedReport.online = nextReport.online;
+          }
+        } else {
+          state.report.set(nextReport.url, nextReport);
+        }
+      }
+
+      return {
+        report: state.report,
+        loading: true, // continue loading until stream is finished
+        url: action.payload.url || state.url,
+      };
+    }
     case AuditActionKind.SET_URL: {
       return { report: state.report, loading: false, url: action.payload.url };
     }
@@ -64,11 +85,16 @@ type AuditHookProps = {
   multi?: boolean;
 };
 
+const init = (multi: null) => {
+  return { report: multi ? new Map() : null, loading: false, url: "" };
+};
+
 // basic account details
-export const useAudit = ({ jwt, persist }: AuditHookProps) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
+  const [state, dispatch] = useReducer(reducer, multi, init);
   const persistKey = `${tkn_report}_${persist}`; // custom persist options per url
 
+  // restore state
   useEffect(() => {
     if (persist) {
       const oldState = localStorage.getItem(persistKey);
@@ -78,54 +104,62 @@ export const useAudit = ({ jwt, persist }: AuditHookProps) => {
 
         dispatch({
           type: AuditActionKind.SET_REPORT,
-          payload: oldStateValue,
+          payload: multi
+            ? {
+                url: oldStateValue.url,
+                report: new Map(JSON.parse(oldStateValue.report)),
+              }
+            : oldStateValue,
         });
       }
     }
-  }, [persist, dispatch]);
+  }, [persist, multi, dispatch]);
 
-  const performAudit = async (url: string) => {
-    try {
+  // store state
+  useEffect(() => {
+    const report = state.report;
+
+    if (report && persist && localStorage) {
+      localStorage.setItem(
+        persistKey,
+        JSON.stringify({
+          report:
+            multi && report instanceof Map
+              ? JSON.stringify(Array.from(report.entries()))
+              : report,
+          url: state.url,
+        })
+      );
+    }
+  }, [state, persist, multi]);
+
+  const dispatchReport = (value: PageReport) => {
+    dispatch({
+      type: AuditActionKind.SET_REPORT_STREAM,
+      payload: { report: value },
+    });
+  };
+
+  // @param u - url return Promise<{data}>
+  const performAudit = async (u: string) => {
+    const url = u.includes("http") ? u : `http://${u}`;
+    dispatch({
+      type: AuditActionKind.TOGGLE_LOADER,
+      payload: { report: null },
+    });
+
+    if (multi) {
+      await streamAudit({ url, cb: dispatchReport }, jwt);
       dispatch({
         type: AuditActionKind.TOGGLE_LOADER,
-        payload: { report: null },
+        payload: { url },
       });
-
-      const res = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_A11YWATCH_API || "https://api.a11ywatch.com"
-        }/api/scan`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            url,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`, // set the auth token from login
-          },
-        }
-      );
-      const json = await res.json();
-      const value = json?.data;
-
-      if (value) {
-        dispatch({
-          type: AuditActionKind.SET_REPORT,
-          payload: { report: value },
-        });
-
-        if (value && persist && localStorage) {
-          localStorage.setItem(
-            persistKey,
-            JSON.stringify({ report: value, url: state.url })
-          );
-        }
-      } else {
-        alert(json?.message ?? "Error with API.");
-      }
-    } catch (e) {
-      console.error(e);
+    } else {
+      const json = await mutateScan({ url }, jwt);
+      dispatch({
+        type: AuditActionKind.SET_REPORT,
+        payload: { report: json?.data },
+      });
     }
   };
 
@@ -139,6 +173,7 @@ export const useAudit = ({ jwt, persist }: AuditHookProps) => {
   return {
     performAudit,
     onChangeUrl,
+    dispatchReport,
     report: state.report,
     loading: state.loading,
     url: state.url || "", // prevent returning undefined

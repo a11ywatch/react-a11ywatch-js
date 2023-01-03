@@ -13,6 +13,21 @@ export type Analytic = {
   totalIssues?: number;
 };
 
+export type Report = {
+  url?: string;
+  domain?: string;
+  issues?: PageIssue[];
+  cdnConnected?: boolean;
+  issuesInfo?: IssueMeta;
+  lastScanDate?: string;
+  online?: boolean;
+  pageLoadTime?: PageLoadTimeMeta;
+  userId?: number;
+};
+
+// allow single report or a map of reports depending on multi prop
+export type PageReport = Report | Map<string, Report> | null | undefined;
+
 export type BasicMutationResponse = MutationResponse & {
   __typename?: "BasicMutationResponse";
   code: string;

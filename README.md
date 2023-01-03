@@ -1,6 +1,10 @@
 ## @a11ywatch/react-a11ywatch-js
 
-Unstyled react components and hooks to integrate with [A11yWatch](https://a11ywatch.com) using [tailwindcss](https://tailwindcss.com/).
+Unstyled React components and hooks to integrate with [A11yWatch](https://a11ywatch.com) using [tailwindcss](https://tailwindcss.com/).
+
+Built with performant, native, customizable components, and hooks that can be used for any situation as in re-building custom accessibility solutions, special audit pages, external handling of A11yWatch and much more.
+
+![multi page audit components for jeffmendez.com example](https://user-images.githubusercontent.com/8095978/210292974-d75680c2-7394-420a-b5b5-fe6b6044f21d.png)
 
 ## Getting Started
 
@@ -45,20 +49,20 @@ export default function App() {
 }
 ```
 
-Use auth form to authenticate
+Use the SignOnForm component to authenticate.
 
 ```tsx
-import { useA11yWatchContext, SignOnForm } from '@a11ywatch/react-a11ywatch-js'
+import { useA11yWatchContext, SignOnForm } from "@a11ywatch/react-a11ywatch-js";
 
 export default function App() {
-    const { account } = useA11yWatchContext()
+  const { account } = useA11yWatchContext();
 
-    return (
-        <div>
-           {account.email ? Email {account.email} : null}
-            <SignOnForm />
-        </div>
-    )
+  return (
+    <div>
+      Welcome {account.email ? account.email : null}
+      <SignOnForm />
+    </div>
+  );
 }
 ```
 
@@ -195,7 +199,7 @@ function MyAudit() {
 export function Auditer() {
   return (
     <A11yWatchProvider persist>
-      <AuditProvider>
+      <AuditProvider persist>
         <MyAudit />
       </AuditProvider>
     </A11yWatchProvider>
@@ -203,7 +207,7 @@ export function Auditer() {
 }
 ```
 
-Multi audit example with persisting to disk:
+Multiple audits example with persisting to disk:
 
 ```tsx
 import React from "react";
@@ -236,15 +240,96 @@ export function Auditer() {
 }
 ```
 
+Multi page audits with the `multi` prop:
+
+```tsx
+import React from "react";
+import {
+  A11yWatchProvider,
+  AuditProvider,
+  AuditForm,
+  AuditList,
+} from "@a11ywatch/react-a11ywatch-js";
+
+export function Auditer() {
+  return (
+    <A11yWatchProvider persist>
+      <AuditProvider persist multi>
+        <AuditForm />
+        <AuditList />
+      </AuditProvider>
+    </A11yWatchProvider>
+  );
+}
+```
+
 Use pre-compilled tailwind styles:
 
 ```tsx
 import "@a11ywatch/react-a11ywatch-js/css/tailwind.css";
 ```
 
+### Hooks
+
+You can also use the hooks without the UI to perform all events and actions.
+
+```tsx
+import React from "react";
+import {
+  A11yWatchProvider,
+  AuditProvider,
+  AuditForm,
+  AuditList,
+  streamAudit,
+  useA11yWatchContext,
+  useEffect,
+  Report
+} from "@a11ywatch/react-a11ywatch-js";
+
+const AutoAudit = () => {
+  const { account } = useA11yWatchContext();
+  const { dispatchReport } = useAuditContext();
+
+  // auto crawl on mount
+  useEffect(() => {
+    const cb = (report) => {
+      // do something with report prior or after
+      dispatchReport(report) // bind state updates manually
+    }
+    // custom native fetch streaming response
+    streamAudit({{ url: "https://a11ywatch.com", cb }, account.jwt}) // second param JWT to use for request
+  }, [])
+
+  return null;
+}
+
+export function Auditer() {
+  return (
+    <A11yWatchProvider persist>
+      <AuditProvider persist multi>
+        <AutoAudit />
+        <AuditList />
+      </AuditProvider>
+    </A11yWatchProvider>
+  );
+}
+```
+
+Todo.. more examples.
+
+## Config
+
+You can add the `persist` prop to providers for storing to disk and retrieval.
+
 ## ENV
 
-You can use the `NEXT_PUBLIC_A11YWATCH_API` env var to set the base url of the API.
+You can use the `NEXT_PUBLIC_A11YWATCH_API` env var to set the base url of the API ex: `http://localhost:3280`.
+
+## Storybook
+
+The [live example](a11ywatch.github.io/react-a11ywatch-js/?path=/story/paymentsplans--default) website you may need to use the [sign on form](https://a11ywatch.github.io/react-a11ywatch-js/?path=/story/signonform--default) first before using the other components. The sign on and register runs on production with real account information.
+
+Once you login or register you can the other components that require authentication.
 
 ## Development
 

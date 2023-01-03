@@ -6,11 +6,7 @@ export const AuditForm = () => {
 
   const onSubmitEvent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (audit.url) {
-      await audit.performAudit(
-        audit.url.includes("http") ? audit.url : `http://${audit.url}`
-      );
-    }
+    await audit.performAudit(audit.url);
   };
 
   return (

@@ -57,7 +57,7 @@ export const SignOnForm = () => {
         A11yWatch {registerForm ? "Register" : "Login"}
       </p>
 
-      <form onSubmit={onSubmitEvent} noValidate className="space-x-2">
+      <form onSubmit={onSubmitEvent} noValidate className="space-x-2 space-y-2">
         <label className="space-x-2">
           Email
           <input

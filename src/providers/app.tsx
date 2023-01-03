@@ -36,7 +36,7 @@ const A11yWatchProviderWrapper: FC<PropsWithChildren<A11yWatchProps>> = ({
 /**
  * Top level app provider. Wrap this around the entire app.
  * @param children children to render
- * @param persist persist values and restore and refresh
+ * @param persist persist values with restore and refresh
  * @example <caption>Example of using the provider</caption>
  * function Application(){
  *  return <A11yWatchProviderWrapper><App /><A11yWatchProviderWrapper />;
