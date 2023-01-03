@@ -513,6 +513,14 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.visible {
+  visibility: visible;
+}
+
+.\!visible {
+  visibility: visible !important;
+}
+
 .m-0 {
   margin: 0px;
 }
@@ -529,6 +537,14 @@ video {
   display: flex;
 }
 
+.grid {
+  display: grid;
+}
+
+.hidden {
+  display: none;
+}
+
 .h-\[inherit\] {
   height: inherit;
 }
@@ -543,6 +559,10 @@ video {
 
 .min-h-\[0\.75rem\] {
   min-height: 0.75rem;
+}
+
+.w-14 {
+  width: 3.5rem;
 }
 
 .w-3 {
@@ -585,12 +605,28 @@ video {
   list-style-type: none;
 }
 
+.auto-cols-max {
+  grid-auto-columns: max-content;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .flex-col {
   flex-direction: column;
 }
 
+.place-content-end {
+  place-content: end;
+}
+
 .place-content-between {
   place-content: space-between;
+}
+
+.place-items-center {
+  place-items: center;
 }
 
 .items-center {
@@ -599,6 +635,10 @@ video {
 
 .justify-end {
   justify-content: flex-end;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .gap-y-0\.5 {
@@ -677,8 +717,16 @@ video {
   border-width: 2px;
 }
 
+.border-b {
+  border-bottom-width: 1px;
+}
+
 .border-t {
   border-top-width: 1px;
+}
+
+.border-dotted {
+  border-style: dotted;
 }
 
 .border-blue-600 {
@@ -773,6 +821,10 @@ video {
   padding-right: 2rem;
 }
 
+.pr-4 {
+  padding-right: 1rem;
+}
+
 .pt-5 {
   padding-top: 1.25rem;
 }
@@ -781,19 +833,27 @@ video {
   padding-bottom: 0.75rem;
 }
 
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .text-lg {
@@ -871,12 +931,20 @@ video {
           text-decoration-line: underline;
 }
 
+.hover\:opacity-80:hover {
+  opacity: 0.8;
+}
+
 [data-mode="dark"] .dark\:text-blue-700 {
   --tw-text-opacity: 1;
   color: rgb(29 78 216 / var(--tw-text-opacity));
 }
 
 @media (min-width: 768px) {
+  .md\:w-auto {
+    width: auto;
+  }
+
   .md\:min-w-\[275px\] {
     min-width: 275px;
   }
@@ -893,6 +961,11 @@ video {
   .md\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
+  }
+
+  .md\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 }
 
