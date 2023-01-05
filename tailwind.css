@@ -529,6 +529,14 @@ video {
   margin-left: 0.5rem;
 }
 
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
 .inline {
   display: inline;
 }
@@ -545,6 +553,10 @@ video {
   display: none;
 }
 
+.h-5 {
+  height: 1.25rem;
+}
+
 .h-\[inherit\] {
   height: inherit;
 }
@@ -559,6 +571,10 @@ video {
 
 .min-h-\[0\.75rem\] {
   min-height: 0.75rem;
+}
+
+.w-5 {
+  width: 1.25rem;
 }
 
 .w-14 {
