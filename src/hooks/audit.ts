@@ -18,6 +18,7 @@ enum AuditActionKind {
   SET_REPORT_STREAM,
   SET_URL,
   TOGGLE_LOADER,
+  RESET,
 }
 
 function reducer(
@@ -72,6 +73,9 @@ function reducer(
     }
     case AuditActionKind.SET_URL: {
       return { report: state.report, loading: false, url: action.payload.url };
+    }
+    case AuditActionKind.RESET: {
+      return { report: null, loading: false, url: "" };
     }
     default: {
       return state;
@@ -170,6 +174,13 @@ export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
     });
   };
 
+  const onResetDta = () => {
+    dispatch({
+      type: AuditActionKind.RESET,
+      payload: { url: "" },
+    });
+  };
+
   return {
     performAudit,
     onChangeUrl,
@@ -177,5 +188,6 @@ export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
     report: state.report,
     loading: state.loading,
     url: state.url || "", // prevent returning undefined
+    reset: onResetDta,
   };
 };

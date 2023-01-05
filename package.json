@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/react-a11ywatch-js",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "a11ywatch react components and hooks",
   "main": "./dist/index.js",
   "types": "types/index.d.ts",
@@ -11,7 +11,7 @@
     "test": "jest",
     "build": "tsc && NODE_ENV=production npx tailwindcss -i ./src/css/tailwind.css -o ./dist/css/tailwind.css && cp ./dist/css/tailwind.css ./public/tailwind.css",
     "postbuild": "npm run prepdist",
-    "storybook": "npm run build && start-storybook -p 6006 --ci",
+    "storybook": "npm run build && NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006 --ci",
     "build-storybook": "npm run build && build-storybook",
     "prepdist": "node ./config/prep-dist.js",
     "predeploy": "npm run build",

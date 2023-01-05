@@ -3,15 +3,28 @@ import { useAuditContext } from "../../providers/audit";
 import { IssueLists } from "./list";
 import { IssueListsCollapsible } from "./list-collapsible";
 import { AuditListBar } from "./list-header";
+import { LoadingIndicator } from "../pure/loading-indicator";
 
 // issue list with audit provider
-export const AuditList = ({ disableStats }: { disableStats?: boolean }) => {
+export const AuditList = ({
+  disableStats,
+  loaderClassName,
+}: {
+  disableStats?: boolean;
+  loaderClassName?: string;
+}) => {
   const { audit } = useAuditContext();
   const pageReport = audit.report;
 
   if (pageReport instanceof Map) {
     return (
-      <div className="py-2">
+      <div>
+        {pageReport.size === 0 ? (
+          <LoadingIndicator
+            loading={audit.loading}
+            loaderClassName={loaderClassName}
+          />
+        ) : null}
         {disableStats ? null : <AuditListBar />}
         {[...pageReport.keys()].map((item: string) => (
           <IssueListsCollapsible
@@ -24,5 +37,17 @@ export const AuditList = ({ disableStats }: { disableStats?: boolean }) => {
     );
   }
 
-  return <IssueLists issues={pageReport?.issues} />;
+  const issues = pageReport?.issues || [];
+
+  return (
+    <>
+      {!issues.length ? (
+        <LoadingIndicator
+          loading={audit.loading}
+          loaderClassName={loaderClassName}
+        />
+      ) : null}
+      <IssueLists issues={issues} />
+    </>
+  );
 };

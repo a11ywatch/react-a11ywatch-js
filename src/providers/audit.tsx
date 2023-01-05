@@ -12,6 +12,7 @@ const defaultAudit = {
   performAudit: (_x: any) => {},
   onChangeUrl: (_x: any) => {},
   dispatchReport: (_x: any) => {},
+  reset: () => {},
 };
 
 const AppContext = createContext({

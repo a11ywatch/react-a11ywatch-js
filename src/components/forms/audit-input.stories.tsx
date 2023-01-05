@@ -29,41 +29,41 @@ const Component = ({
   return (
     <A11yWatchProvider persist>
       <AuditProvider persist={persist} multi={multi}>
-        <AuditForm />
+        <AuditForm clear />
         <AuditList disableStats={disableStats} />
       </AuditProvider>
     </A11yWatchProvider>
   );
 };
 
-export const DefaultList = () => {
+export const List = () => {
   return <Component />;
 };
 
-export const DefaultListPersist = () => {
+export const ListPersist = () => {
   return <Component persist />;
 };
 
-export const DefaultMultiPersistList = () => {
+export const MultiPersistList = () => {
   return <Component multi persist />;
 };
 
-export const DefaultMultiPersistListNoStats = () => {
+export const MultiPersistListNoStats = () => {
   return <Component multi persist disableStats />;
 };
 
-export const DefaultListPersistCustomKeys = () => {
+export const ListPersistCustomKeys = () => {
   return (
     <A11yWatchProvider persist>
       <div className="space-y-4">
         <AuditProvider persist={"website-1"}>
-          <AuditForm />
+          <AuditForm clear />
           <div className="max-h-96 overflow-y-auto">
             <AuditList />
           </div>
         </AuditProvider>
         <AuditProvider persist={"website-2"}>
-          <AuditForm />
+          <AuditForm clear />
           <div className="max-h-96 overflow-y-auto">
             <AuditList />
           </div>
