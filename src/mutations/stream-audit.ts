@@ -1,4 +1,5 @@
 import { PageReport } from "../types";
+import { API_URL } from "../config/api";
 
 // perform scan against url
 export const streamAudit = async (
@@ -6,23 +7,18 @@ export const streamAudit = async (
   jwt?: string,
   ignoreParse?: boolean
 ) => {
-  const res = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_A11YWATCH_API || "https://api.a11ywatch.com"
-    }/api/crawl`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        url,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        "Transfer-Encoding": "chunked",
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${jwt}`, // set the auth token from login
-      },
-    }
-  );
+  const res = await fetch(`${API_URL}/api/crawl`, {
+    method: "POST",
+    body: JSON.stringify({
+      url,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${jwt}`, // set the auth token from login
+    },
+  });
 
   let json = null;
 
@@ -68,7 +64,7 @@ export const streamAudit = async (
     if (!ignoreParse) {
       const b = await data.text();
 
-      // pop the last comma and return json!
+      // pop the last comma and return json just incase performance mode enabled
       if (b.length > 3 && b[b.length - 2] === ",") {
         json = JSON.parse(b.substring(0, b.length - 2) + "]"); // convert to json string
       }

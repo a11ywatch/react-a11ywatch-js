@@ -54,9 +54,7 @@ export const AuditForm = ({
       ) : null}
       {loadingIndicator ? (
         <LoadingIndicator
-          loaderClassName={
-            "border-2 rounded-full h-5 w-5 inline-block"
-          }
+          loaderClassName={"border-2 rounded-full h-5 w-5 inline-block"}
           loading={audit.loading}
           aria-live="polite"
           hideText

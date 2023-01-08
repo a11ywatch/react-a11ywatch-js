@@ -12,3 +12,4 @@ export { PaymentsProvider, usePaymentsContext } from "./providers/payments";
 export { AuditProvider, useAuditContext } from "./providers/audit";
 export { streamAudit } from "./mutations/stream-audit";
 export { mutateScan } from "./mutations/scan";
+export { setAPIURL, API_URL } from "./config/api";

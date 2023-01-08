@@ -27,7 +27,10 @@ First wrap the section of the app that needs to use A11yWatch with the [A11yWatc
 The `persist` prop stores user data to disk if set to true.
 
 ```tsx
-import { A11yWatchProvider } from "@a11ywatch/react-a11ywatch-js";
+import { A11yWatchProvider, setAPIURL } from "@a11ywatch/react-a11ywatch-js";
+
+// optional: set apiURL - you can also use the env.NEXT_PUBLIC_A11YWATCH_API or window.NEXT_PUBLIC_A11YWATCH_API
+setAPIURL("http://localhost:3280");
 
 export default function Home() {
   return (

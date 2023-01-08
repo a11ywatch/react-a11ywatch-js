@@ -6,6 +6,7 @@ import { useA11yWatchContext } from "./app";
 
 const defaultPayments = {
   selected: undefined as PaymentPlan | undefined,
+  error: "",
   plans: [] as PaymentPlan[] | undefined,
   // defaults
   paymentPlans: undefined as Plans | undefined,

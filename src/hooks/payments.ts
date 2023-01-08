@@ -1,5 +1,6 @@
-import { Token } from "@stripe/stripe-js";
 import { useState } from "react";
+import { Token } from "@stripe/stripe-js";
+import { API_URL } from "../config/api";
 
 export type PaymentPlan = {
   title: string;
@@ -24,6 +25,7 @@ export const usePayments = (
   const [highPlan, setHighPlan] = useState<boolean>(false);
   const [yearly, setYearly] = useState<boolean>(false);
   const [selectedPlan, setSelected] = useState<number>(0);
+  const [error, setError] = useState<string>("");
 
   const plans =
     paymentPlans && (highPlan ? paymentPlans.hPlans : paymentPlans.lPlans);
@@ -33,27 +35,25 @@ export const usePayments = (
     // send token plus account information to account upgrade
     try {
       // fetch the paymentPlans for A11yWatch
-      const res = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_A11YWATCH_API || "https://api.a11ywatch.com"
-        }/api/upgrade`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            stripeToken: token, // the stripe token with payment info
-            yearly, // is yearly plan
-            paymentPlan: selected?.title ?? "L1", // the selected plan
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`, // set the auth token from login
-          },
-        }
-      );
+      const res = await fetch(`${API_URL}/api/upgrade`, {
+        method: "POST",
+        body: JSON.stringify({
+          stripeToken: token, // the stripe token with payment info
+          yearly, // is yearly plan
+          paymentPlan: selected?.title ?? "L1", // the selected plan
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`, // set the auth token from login
+        },
+      });
       const json = await res.json();
       const user = json?.data;
 
       if (user) {
+        if (error) {
+          setError("");
+        }
         setAccountType({
           authed: true,
           email: user.email,
@@ -62,7 +62,7 @@ export const usePayments = (
           activeSubscription: user.activeSubscription,
         });
       } else {
-        alert(json?.message ?? "Error with API.");
+        setError(json?.message ?? "Error with API.");
       }
     } catch (e) {
       console.error(e);
@@ -83,5 +83,6 @@ export const usePayments = (
     setYearly,
     setSelected,
     onToken,
+    error,
   };
 };

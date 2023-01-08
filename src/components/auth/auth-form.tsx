@@ -1,4 +1,5 @@
 import React, { FormEvent, useState } from "react";
+import { API_URL } from "../../config/api";
 import { useA11yWatchContext } from "../../providers/app";
 
 // todo: loading spinner
@@ -7,6 +8,7 @@ export const SignOnForm = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [registerForm, setRegister] = useState<boolean>();
+  const [error, setError] = useState<string>("");
 
   const onChangeEmail = (event: React.FormEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
@@ -20,9 +22,7 @@ export const SignOnForm = () => {
 
     if (email && password) {
       const res = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_A11YWATCH_API || "https://api.a11ywatch.com"
-        }/api/${registerForm ? "register" : "login"}`,
+        `${API_URL}/api/${registerForm ? "register" : "login"}`,
         {
           method: "POST",
           body: JSON.stringify({ email, password }),
@@ -36,6 +36,10 @@ export const SignOnForm = () => {
       const user = json?.data;
 
       if (user) {
+        // reset the error message
+        if (error) {
+          setError("");
+        }
         setAccountType({
           authed: true,
           email: user.email,
@@ -44,7 +48,7 @@ export const SignOnForm = () => {
           activeSubscription: user.activeSubscription,
         });
       } else {
-        alert(json?.message ?? "Error with API.");
+        setError(json?.message ?? "Error with API.");
       }
     }
   };
@@ -56,7 +60,12 @@ export const SignOnForm = () => {
       <p className="text-xl font-medium">
         A11yWatch {registerForm ? "Register" : "Login"}
       </p>
-
+      <div
+        className={`${error ? "block" : "hidden"} py-2`}
+        aria-hidden={!error}
+      >
+        {error}
+      </div>
       <form onSubmit={onSubmitEvent} noValidate className="space-x-2 space-y-2">
         <label className="space-x-2">
           Email

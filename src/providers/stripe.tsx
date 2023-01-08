@@ -3,14 +3,11 @@
 import React, { memo, PropsWithChildren, useEffect, useState } from "react";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import { API_URL } from "../config/api";
 
 // get the a11ywatch stripe key
 export const getStripeKey = async () => {
-  const res = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_A11YWATCH_API || "https://api.a11ywatch.com"
-    }/api/client-key`
-  );
+  const res = await fetch(`${API_URL}/api/client-key`);
 
   let secret = "";
 

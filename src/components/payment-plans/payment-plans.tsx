@@ -1,13 +1,10 @@
-import { usePaymentsContext } from "../../providers/payments";
 import React, { useEffect } from "react";
+import { usePaymentsContext } from "../../providers/payments";
+import { API_URL } from "../../config/api";
 
 // fetch the payment plans from the API
 export const getPaymentPlans = async () => {
-  const res = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_A11YWATCH_API || "https://api.a11ywatch.com"
-    }/api/plans`
-  );
+  const res = await fetch(`${API_URL}/api/plans`);
   let json = null;
 
   if (res.ok) {
@@ -32,6 +29,7 @@ export const PaymentsPlans = () => {
     setSelected,
     selected,
     plans,
+    error,
     // highPlan, // use plan determination during checkout
     // selectedPlan, // use the plan in checkout
   } = payments;
@@ -61,6 +59,13 @@ export const PaymentsPlans = () => {
       {paymentPlans ? (
         <div className="space-y-1">
           <div className="text-lg font-medium">Features</div>
+
+          <div
+            className={`${error ? "block" : "hidden"} py-2`}
+            aria-hidden={!error}
+          >
+            {error}
+          </div>
 
           <ul className="py-2 px-3 list-none border rounded">
             {paymentPlans.feats.map((item, i) => {

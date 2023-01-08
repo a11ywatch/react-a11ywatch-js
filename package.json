@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/react-a11ywatch-js",
-  "version": "0.0.13",
+  "version": "0.0.19",
   "description": "a11ywatch react components and hooks",
   "main": "./dist/index.js",
   "types": "types/index.d.ts",
@@ -20,7 +20,6 @@
     "fix": "prettier --write '**/*.{js,jsx,ts,tsx,md}'"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^5.0.0",
     "@storybook/addon-a11y": "6.5.15",
     "@storybook/addon-actions": "6.5.15",
     "@storybook/addon-info": "5.3.21",
