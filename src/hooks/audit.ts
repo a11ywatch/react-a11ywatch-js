@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { tkn_report } from "../utils/data";
 import { PageReport, Report } from "../types";
 import { mutateScan } from "../mutations/scan";
@@ -30,7 +30,7 @@ function reducer(
 ) {
   switch (action.type) {
     case AuditActionKind.TOGGLE_LOADER: {
-      return { loading: !state?.loading, report: state.report, url: state.url };
+      return { loading: !state.loading, report: state.report, url: state.url };
     }
     case AuditActionKind.SET_REPORT: {
       return {
@@ -75,7 +75,15 @@ function reducer(
       return { report: state.report, loading: false, url: action.payload.url };
     }
     case AuditActionKind.RESET: {
-      return { report: null, loading: false, url: "" };
+      let report = null;
+
+      if (state.report && state.report instanceof Map) {
+        // clear the internal memory before state wipe
+        state.report.clear();
+        report = new Map();
+      }
+
+      return { report: report, loading: false, url: "" };
     }
     default: {
       return state;
@@ -97,10 +105,11 @@ const init = (multi: null) => {
 export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
   const [state, dispatch] = useReducer(reducer, multi, init);
   const persistKey = `${tkn_report}_${persist}`; // custom persist options per url
+  const initMount = useRef<boolean>(false);
 
   // restore state
   useEffect(() => {
-    if (persist) {
+    if (persist && !initMount.current) {
       const oldState = localStorage.getItem(persistKey);
 
       if (oldState) {
@@ -135,6 +144,7 @@ export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
             : oldStateValue,
         });
       }
+      initMount.current = true;
     }
   }, [persist, multi, dispatch]);
 
@@ -198,6 +208,7 @@ export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
       type: AuditActionKind.RESET,
       payload: { url: "" },
     });
+    localStorage.removeItem(persistKey);
   };
 
   return {
