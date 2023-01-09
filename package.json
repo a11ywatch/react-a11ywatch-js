@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/react-a11ywatch-js",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "a11ywatch react components and hooks",
   "main": "./dist/index.js",
   "types": "types/index.d.ts",
@@ -78,5 +78,8 @@
       "js",
       "json"
     ]
+  },
+  "dependencies": {
+    "buffer": "^6.0.3"
   }
 }

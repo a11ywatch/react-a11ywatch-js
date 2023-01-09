@@ -1,5 +1,6 @@
 import { PageReport } from "../types";
 import { API_URL } from "../config/api";
+import { Buffer } from 'buffer/';
 
 // perform scan against url
 export const streamAudit = async (
@@ -30,7 +31,7 @@ export const streamAudit = async (
       const reader = res.body.getReader();
 
       // todo - re-visit stream pumps
-      await new ReadableStream({
+      new ReadableStream({
         start(controller) {
           function pump(): Promise<void> {
             return reader.read().then(({ done, value }) => {
