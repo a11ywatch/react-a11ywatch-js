@@ -31,7 +31,7 @@ export const AuditForm = ({
           type={"url"}
           value={audit.url}
           onChange={audit.onChangeUrl}
-          className={"ml-2 p-2 border rounded"}
+          className={"ml-2 p-2 border rounded bg-inherit"}
           minLength={8}
           required
         ></input>

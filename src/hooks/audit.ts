@@ -97,15 +97,31 @@ type AuditHookProps = {
   multi?: boolean;
 };
 
-const init = (multi: null) => {
-  return { report: multi ? new Map() : null, loading: false, url: "" };
-};
+// init props
+const init = (multi: boolean) => ({
+  report: multi ? new Map() : null,
+  loading: false,
+  url: "",
+});
 
 // basic account details
 export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
   const [state, dispatch] = useReducer(reducer, multi, init);
   const persistKey = `${tkn_report}_${persist}`; // custom persist options per url
   const initMount = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (
+      (multi && !state.report) ||
+      (!multi && state.report && state.report instanceof Map)
+    ) {
+      // reset to default
+      dispatch({
+        type: AuditActionKind.SET_REPORT,
+        payload: init(!!multi),
+      });
+    }
+  }, [multi, state, dispatch]);
 
   // restore state
   useEffect(() => {

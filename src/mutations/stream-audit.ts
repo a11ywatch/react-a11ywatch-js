@@ -1,6 +1,6 @@
 import { PageReport } from "../types";
 import { API_URL } from "../config/api";
-import { Buffer } from 'buffer/';
+import { Buffer } from "buffer/";
 
 // perform scan against url
 export const streamAudit = async (
