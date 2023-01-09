@@ -9,22 +9,30 @@ type AccountProps = {
   role: number;
 };
 
+const accountDefaults: AccountProps = {
+  activeSubscription: false,
+  authed: false,
+  email: "",
+  jwt: "",
+  role: 0,
+};
+
 // basic account details
 export const useAccount = (persist?: boolean) => {
-  const [account, setAccountType] = useState<AccountProps>({
-    activeSubscription: false,
-    authed: false,
-    email: "",
-    jwt: "",
-    role: 0,
-  });
+  const [account, setAccountType] = useState<AccountProps>(accountDefaults);
 
   useEffect(() => {
     if (persist) {
       const usr = localStorage.getItem(tkn);
 
       if (usr) {
-        setAccountType(JSON.parse(usr));
+        let udata = null;
+        try {
+          udata = JSON.parse(usr);
+        } catch (e) {
+          console.error(e);
+        }
+        udata && setAccountType(udata);
       }
     }
   }, [persist, setAccountType]);
@@ -37,8 +45,17 @@ export const useAccount = (persist?: boolean) => {
     }
   };
 
+  const onLogout = () => {
+    if (account.email && persist && localStorage) {
+      setAccountType(accountDefaults);
+      localStorage.removeItem(tkn);
+    }
+    // silent ignore
+  };
+
   return {
     account,
     setAccountType: onAccountEvent,
+    onLogout,
   };
 };

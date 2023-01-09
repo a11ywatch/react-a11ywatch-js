@@ -104,14 +104,33 @@ export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
       const oldState = localStorage.getItem(persistKey);
 
       if (oldState) {
-        const oldStateValue = JSON.parse(oldState);
+        let oldStateValue = {
+          url: "",
+          report: undefined,
+        };
+
+        try {
+          oldStateValue = JSON.parse(oldState);
+        } catch (e) {
+          console.error(e);
+        }
+
+        let reportParsed;
+
+        if (oldStateValue.report) {
+          try {
+            reportParsed = JSON.parse(oldStateValue.report);
+          } catch (e) {
+            console.error(e);
+          }
+        }
 
         dispatch({
           type: AuditActionKind.SET_REPORT,
           payload: multi
             ? {
                 url: oldStateValue.url,
-                report: new Map(JSON.parse(oldStateValue.report)),
+                report: new Map(reportParsed),
               }
             : oldStateValue,
         });

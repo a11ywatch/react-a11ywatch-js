@@ -7,22 +7,28 @@ export const streamAudit = async (
   jwt?: string,
   ignoreParse?: boolean
 ) => {
-  const res = await fetch(`${API_URL}/api/crawl`, {
-    method: "POST",
-    body: JSON.stringify({
-      url,
-    }),
-    headers: {
-      "Content-Type": "application/json",
-      "Transfer-Encoding": "chunked",
-      "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${jwt}`, // set the auth token from login
-    },
-  });
+  let res;
+
+  try {
+    res = await fetch(`${API_URL}/api/crawl`, {
+      method: "POST",
+      body: JSON.stringify({
+        url,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${jwt}`, // set the auth token from login
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
 
   let json = null;
 
-  if (res.body) {
+  if (res && res.body) {
     const reader = res.body.getReader();
 
     const stream = await new ReadableStream({

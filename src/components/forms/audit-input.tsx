@@ -22,7 +22,7 @@ export const AuditForm = ({
     <form
       onSubmit={onSubmitEvent}
       noValidate
-      className="space-x-2 place-items-center"
+      className="flex space-x-2 place-items-center"
     >
       <label className="space-x-2">
         Url

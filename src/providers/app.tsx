@@ -14,6 +14,7 @@ const defaultAccount = {
 const AppContext = createContext({
   account: defaultAccount,
   setAccountType: (_x: typeof defaultAccount) => {},
+  onLogout: () => {},
 });
 
 const A11yWatchProviderBase = AppContext.Provider;
@@ -24,12 +25,10 @@ const A11yWatchProviderWrapper: FC<PropsWithChildren<A11yWatchProps>> = ({
   children,
   persist,
 }) => {
-  const { account, setAccountType } = useAccount(persist);
+  const state = useAccount(persist);
 
   return (
-    <A11yWatchProviderBase value={{ account, setAccountType }}>
-      {children}
-    </A11yWatchProviderBase>
+    <A11yWatchProviderBase value={state}>{children}</A11yWatchProviderBase>
   );
 };
 
