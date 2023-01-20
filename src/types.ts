@@ -9,7 +9,7 @@ export type Analytic = {
   errorOccurances?: string;
   userId?: number;
   domain?: string;
-  adaScore?: number;
+  accessScore?: number;
   totalIssues?: number;
 };
 
@@ -103,9 +103,9 @@ export type IssueMeta = {
   errorCount?: number;
   warningCount?: number;
   noticeCount?: number;
-  adaScore?: number;
+  accessScore?: number;
   pageCount?: number;
-  adaScoreAverage?: string; // todo: replace name to accessScore
+  accessScoreAverage?: string; // todo: replace name to accessScore
 };
 
 export type Mutation = {
@@ -495,6 +495,7 @@ export type Website = {
   actionsEnabled?: boolean;
   actions?: any[];
   standard?: "WCAG2A" | "WCAG2AA" | "WCAG2AAA" | "Section508";
+  proxy?: string; // proxy for request.
 };
 
 export type WebsiteIssuesArgs = {

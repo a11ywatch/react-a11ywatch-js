@@ -15,8 +15,8 @@ Built with performant, native, customizable components, and hooks that can be us
 If you plan on upgrading user accounts externally `@stripe/stripe-js` and `@stripe/react-stripe-js` is required.
 
 1. `react`. ^16
-1. `@stripe/stripe-js`
-1. `@stripe/react-stripe-js`.
+1. optional: `@stripe/stripe-js`
+1. optional: `@stripe/react-stripe-js`.
 
 This package handles the above as peers and require installation manually.
 
@@ -72,7 +72,7 @@ export default function App() {
 Select a payment plan to prep account upgrade first add the [PaymentsProvider](./src/providers/payments.tsx).
 
 ```tsx
-import { PaymentsProvider } from "@a11ywatch/react-a11ywatch-js";
+import { PaymentsProvider } from "@a11ywatch/react-a11ywatch-js/providers/payments";
 
 export default function Payments() {
   return (
@@ -84,10 +84,8 @@ export default function Payments() {
 ```
 
 ```tsx
-import {
-  usePaymentsContext,
-  PaymentPlans,
-} from "@a11ywatch/react-a11ywatch-js";
+import { usePaymentsContext } from "@a11ywatch/react-a11ywatch-js/providers/payments";
+import { PaymentPlans } from "@a11ywatch/react-a11ywatch-js/components/payment-plans";
 
 export default function PaymentsView() {
   const { payments } = usePaymentsContext();
@@ -100,11 +98,9 @@ export default function PaymentsView() {
 Use the selected payment plan to change account plan.
 
 ```tsx
-import {
-  usePaymentsContext,
-  CheckoutForm,
-  StripeProvider,
-} from "@a11ywatch/react-a11ywatch-js";
+import { usePaymentsContext } from "@a11ywatch/react-a11ywatch-js/providers/payments";
+import { StripeProvider } from "@a11ywatch/react-a11ywatch-js/providers/stripe";
+import { CheckoutForm } from "@a11ywatch/react-a11ywatch-js/components/stripe/checkout";
 
 export default function PaymentsView() {
   const { payments } = usePaymentsContext();
@@ -124,13 +120,13 @@ Full example managing account subscriptions and auth.
 import React, { useEffect } from "react";
 import {
   A11yWatchProvider,
-  PaymentsProvider,
   SignOnForm,
-  PaymentsPlans,
-  StripeProvider,
-  CheckoutForm,
   useA11yWatchContext,
 } from "@a11ywatch/react-a11ywatch-js";
+import { StripeProvider } from "@a11ywatch/react-a11ywatch-js/providers/stripe";
+import { CheckoutForm } from "@a11ywatch/react-a11ywatch-js/components/stripe/checkout";
+import { PaymentPlans } from "@a11ywatch/react-a11ywatch-js/components/payment-plans";
+import { PaymentsProvider } from "@a11ywatch/react-a11ywatch-js/providers/payments";
 
 // build a payment view based on the components.
 const PaymentsView = () => {
@@ -339,6 +335,10 @@ Once you login or register you can the other components that require authenticat
 node v14 - v18.
 
 To get started developing run `yarn` to install the modules and `yarn storybook` to start the instance locally.
+
+## Extra Info
+
+The payments and stripe portions need direct imports since we want to make those portions optional for the bundle.
 
 ## LICENSE
 
