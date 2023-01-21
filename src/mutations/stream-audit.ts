@@ -2,9 +2,14 @@ import { PageReport } from "../types";
 import { API_URL } from "../config/api";
 import { Buffer } from "buffer/";
 
+type Body = {
+  url?: string;
+  [x: string]: any;
+};
+
 // perform scan against url
 export const streamAudit = async (
-  { url, cb }: { url: string; cb(info: PageReport): void | Promise<void> },
+  { body, cb }: { body: Body; cb(info: PageReport): void | Promise<void> },
   jwt?: string
 ) => {
   let res: null | Response = null;
@@ -12,9 +17,7 @@ export const streamAudit = async (
   try {
     res = await fetch(`${API_URL}/api/crawl`, {
       method: "POST",
-      body: JSON.stringify({
-        url,
-      }),
+      body: body ? JSON.stringify(body) : null,
       headers: {
         "Content-Type": "application/json",
         "Transfer-Encoding": "chunked",

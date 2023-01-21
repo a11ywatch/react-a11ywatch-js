@@ -15,7 +15,7 @@ export const AuditForm = ({
 
   const onSubmitEvent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await audit.performAudit(audit.url);
+    await audit.performAudit({ url: audit.url });
   };
 
   return (

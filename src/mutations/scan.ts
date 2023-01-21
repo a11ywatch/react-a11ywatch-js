@@ -1,15 +1,18 @@
 import { API_URL } from "../config/api";
 
+type Body = {
+  url?: string;
+  [x: string]: any;
+};
+
 // perform scan against url
-export const mutateScan = async ({ url }: { url: string }, jwt?: string) => {
+export const mutateScan = async (params?: {body?: Body}, jwt?: string) => {
   let res = null;
 
   try {
     res = await fetch(`${API_URL}/api/scan`, {
       method: "POST",
-      body: JSON.stringify({
-        url,
-      }),
+      body: params ? JSON.stringify(params.body) : null,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`, // set the auth token from login

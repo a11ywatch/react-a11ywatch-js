@@ -190,21 +190,23 @@ export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
   };
 
   // @param u - url return Promise<{data}>
-  const performAudit = async (u: string) => {
-    const url = u.includes("http") ? u : `http://${u}`;
+  const performAudit = async (params: { url: string; [x: string]: any }) => {
+    const { url: u, ...extra } = params ?? {};
+    const websiteUrl = u.includes("http") ? u : `http://${u}`;
+
     dispatch({
       type: AuditActionKind.TOGGLE_LOADER,
       payload: { report: null },
     });
 
     if (multi) {
-      await streamAudit({ url, cb: dispatchReport }, jwt);
+      await streamAudit({ body: { ...extra, url: websiteUrl }, cb: dispatchReport }, jwt);
       dispatch({
         type: AuditActionKind.TOGGLE_LOADER,
-        payload: { url },
+        payload: { url: websiteUrl },
       });
     } else {
-      const json = await mutateScan({ url }, jwt);
+      const json = await mutateScan({ body: { ...extra, url: websiteUrl } }, jwt);
       dispatch({
         type: AuditActionKind.SET_REPORT,
         payload: { report: json?.data },

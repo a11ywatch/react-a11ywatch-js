@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/react-a11ywatch-js",
-  "version": "0.1.0",
+  "version": "0.1.7",
   "description": "a11ywatch react components and hooks",
   "main": "./dist/index.js",
   "types": "types/index.d.ts",
@@ -80,6 +80,9 @@
     ]
   },
   "dependencies": {
-    "buffer": "^6.0.3"
+    "@headlessui/react": "^1.7.7",
+    "buffer": "^6.0.3",
+    "clsx": "^1.2.1",
+    "react-icons": "^4.7.1"
   }
 }
