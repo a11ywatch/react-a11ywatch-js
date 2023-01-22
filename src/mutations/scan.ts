@@ -6,7 +6,7 @@ type Body = {
 };
 
 // perform scan against url
-export const mutateScan = async (params?: {body?: Body}, jwt?: string) => {
+export const mutateScan = async (params?: { body?: Body }, jwt?: string) => {
   let res = null;
 
   try {

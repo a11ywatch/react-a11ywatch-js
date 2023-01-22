@@ -200,13 +200,19 @@ export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
     });
 
     if (multi) {
-      await streamAudit({ body: { ...extra, url: websiteUrl }, cb: dispatchReport }, jwt);
+      await streamAudit(
+        { body: { ...extra, url: websiteUrl }, cb: dispatchReport },
+        jwt
+      );
       dispatch({
         type: AuditActionKind.TOGGLE_LOADER,
         payload: { url: websiteUrl },
       });
     } else {
-      const json = await mutateScan({ body: { ...extra, url: websiteUrl } }, jwt);
+      const json = await mutateScan(
+        { body: { ...extra, url: websiteUrl } },
+        jwt
+      );
       dispatch({
         type: AuditActionKind.SET_REPORT,
         payload: { report: json?.data },
