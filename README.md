@@ -4,6 +4,8 @@ Unstyled React components and hooks to integrate with [A11yWatch](https://a11ywa
 
 Built with performant, native, customizable components, and hooks that can be used for any situation as in re-building custom accessibility solutions, special audit pages, external handling of A11yWatch and much more.
 
+You need a [paid plan](https://a11ywatch.com/pricing) to use the API and components externally outside of [A11yWatch Lite](https://github.com/a11ywatch/a11ywatch).
+
 ![multi page audit components for jeffmendez.com example](https://user-images.githubusercontent.com/8095978/210292974-d75680c2-7394-420a-b5b5-fe6b6044f21d.png)
 
 ## Getting Started
