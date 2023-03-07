@@ -19,13 +19,13 @@ export const AuditList = ({
   if (pageReport instanceof Map) {
     return (
       <div>
+        {disableStats ? null : <AuditListBar pageCount={pageReport.size} />}
         {pageReport.size === 0 ? (
           <LoadingIndicator
             loading={audit.loading}
             loaderClassName={loaderClassName}
           />
         ) : null}
-        {disableStats ? null : <AuditListBar pageCount={pageReport.size} />}
         {[...pageReport.keys()].map((item: string) => (
           <IssueListsCollapsible
             url={item}

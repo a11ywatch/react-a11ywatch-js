@@ -45,6 +45,7 @@ interface FormDialogProps {
   lightHouseEnabled?: boolean; // render lighthouse btn
   submitTitle?: string; // submit title
   viewConfigs?: ViewConfigs;
+  themes?: boolean; // use tw light dark theme handling
 }
 
 const checkBoxContainerStyles =
@@ -58,6 +59,7 @@ function FormDialogComponent({
   submit,
   viewConfigs,
   submitButtonStyle,
+  themes
 }: FormDialogProps) {
   const { audit } = useAuditContext();
 
@@ -102,7 +104,7 @@ function FormDialogComponent({
     async (event: any) => {
       event?.preventDefault();
       if (!websitUrl) {
-          return;
+        return;
       }
 
       let cleanUrl = websitUrl
@@ -193,18 +195,23 @@ function FormDialogComponent({
   const { disabled } = viewConfigs ?? { disabled: {} };
 
   // todo: disable views when toggling between scan and multi
+  
+  const inputBgStyle = !themes ? "bg-transparent" : "";
 
   return (
-    <div className="bg-white dark:bg-black">
+    <div className={themes ? "bg-white dark:bg-black" : undefined}>
       <form onSubmit={submitEvent} noValidate>
         <div className={"px-7 pt-3 pb-1 relative flex flex-col gap-y-2"}>
           {buttonTitle ? (
-          <div className={"flex place-items-center"}>
-            <h3 id="form-dialog-title" className={"flex-1 text-xl font-medium"}>
-              {buttonTitle}
-            </h3>
-          </div>
-        ) : null}
+            <div className={"flex place-items-center"}>
+              <h3
+                id="form-dialog-title"
+                className={"flex-1 text-xl font-medium"}
+              >
+                {buttonTitle}
+              </h3>
+            </div>
+          ) : null}
           {subTitle ? <p className="text-base">{subTitle}</p> : null}
           <FormControl htmlFor="name">Enter Website Url</FormControl>
           <div className={"pb-1 py-4 w-full"}>
@@ -212,8 +219,7 @@ function FormDialogComponent({
               autoFocus
               onChange={onChangeText}
               minLength={3}
-              className={`w-full border px-3 py-2 rounded`}
-              color="secondary"
+              className={`w-full border px-3 py-2 rounded ${inputBgStyle}`}
               value={websitUrl}
               id="name"
               placeholder="Website url"
@@ -338,6 +344,7 @@ function FormDialogComponent({
                 standard={standard}
                 onStandardChange={onStandardChange}
                 spacing
+                className={inputBgStyle}
               />
             ) : null}
 
@@ -346,7 +353,7 @@ function FormDialogComponent({
                 <FormControl htmlFor="ua">Enter User Agent</FormControl>
                 <TextField
                   onChange={onChangeUA}
-                  className={`px-2 py-0.5 border-none`}
+                  className={`px-2 py-0.5 border ${inputBgStyle}`}
                   style={{ maxWidth: 120 }}
                   value={ua}
                   id="ua"
@@ -361,9 +368,9 @@ function FormDialogComponent({
                 <FormControl htmlFor="proxy">Enter Proxy</FormControl>
                 <TextField
                   onChange={onChangeProxy}
-                  className={`px-2 py-0.5 border-none ${
-                    !activeSubscription ? "opacity-80" : ""
-                  }`}
+                  className={`px-2 py-0.5 border ${
+                    !activeSubscription ? "opacity-90" : ""
+                  } ${inputBgStyle}`}
                   style={{ maxWidth: 120 }}
                   value={proxy}
                   id="proxy"
