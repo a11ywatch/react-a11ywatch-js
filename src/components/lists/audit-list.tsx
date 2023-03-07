@@ -25,7 +25,7 @@ export const AuditList = ({
             loaderClassName={loaderClassName}
           />
         ) : null}
-        {disableStats ? null : <AuditListBar />}
+        {disableStats ? null : <AuditListBar pageCount={pageReport.size} />}
         {[...pageReport.keys()].map((item: string) => (
           <IssueListsCollapsible
             url={item}
