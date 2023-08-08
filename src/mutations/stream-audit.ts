@@ -1,6 +1,6 @@
+import { Buffer } from "buffer";
 import { PageReport } from "../types";
 import { API_URL } from "../config/api";
-import { Buffer } from "buffer/";
 
 type Body = {
   url?: string;
@@ -65,7 +65,7 @@ export const streamAudit = async (
                     try {
                       setData = JSON.parse(newSet);
                     } catch (e) {
-                      console.error(e);
+                      // console.error(e);
                     }
 
                     for (const item of setData) {
@@ -85,7 +85,7 @@ export const streamAudit = async (
 
                         jsonDataParsed && cb(jsonDataParsed.data);
                       } catch (e) {
-                        console.error(e);
+                        // console.error(e);
                       }
                     }
                   }

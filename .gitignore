@@ -7,3 +7,5 @@ storybook-static
 
 # local env files
 .env*.local
+.yarn
+.yarnrc.yml

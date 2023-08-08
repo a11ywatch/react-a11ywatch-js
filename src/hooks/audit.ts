@@ -142,7 +142,7 @@ export const useAudit = ({ jwt, persist, multi }: AuditHookProps) => {
 
         let reportParsed;
 
-        if (oldStateValue.report) {
+        if (oldStateValue && oldStateValue.report) {
           try {
             reportParsed = JSON.parse(oldStateValue.report);
           } catch (e) {
