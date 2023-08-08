@@ -353,8 +353,7 @@ function FormDialogComponent({
                 <FormControl htmlFor="ua">Enter User Agent</FormControl>
                 <TextField
                   onChange={onChangeUA}
-                  className={`px-2 py-0.5 border ${inputBgStyle}`}
-                  style={{ maxWidth: 120 }}
+                  className={`px-2 py-0.5 border max-w-[120px] ${inputBgStyle}`}
                   value={ua}
                   id="ua"
                   placeholder="User-Agent"
@@ -368,10 +367,9 @@ function FormDialogComponent({
                 <FormControl htmlFor="proxy">Enter Proxy</FormControl>
                 <TextField
                   onChange={onChangeProxy}
-                  className={`px-2 py-0.5 border ${
+                  className={`px-2 py-0.5 border max-w-[120px] ${
                     !activeSubscription ? "opacity-90" : ""
                   } ${inputBgStyle}`}
-                  style={{ maxWidth: 120 }}
                   value={proxy}
                   id="proxy"
                   placeholder="Proxy"
